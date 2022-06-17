@@ -1,0 +1,11 @@
+---
+import BaseHtml from './BaseHtml.astro';
+import Navbar from '../components/Navbar.astro';
+---
+
+<BaseHtml title="mfiorek blog - About me">
+    <Navbar currentPath="/about-me" bgColor="bg-orange-800" />
+    <main>
+        <slot />
+    </main>
+</BaseHtml>

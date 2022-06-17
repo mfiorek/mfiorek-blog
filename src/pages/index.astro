@@ -1,13 +1,60 @@
 ---
+import HomeLayout from '../layouts/Home.astro';
+import PostCard from '../components/PostCard.astro';
 
+const posts = await Astro.glob('../pages/post/*.md');
 ---
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+
+<HomeLayout>
+	<div class="pt-8 m-auto main-grid">
+		<section class="posts-grid">
+			{posts
+			.filter(post => !post.frontmatter.draft)
+			?.map(post => <PostCard post={post} />)
+			}
+		</section>
+		<aside>
+			<p>Hi, I'm fior and this is my blog!</p>
+		</aside>
+	</div>
+</HomeLayout>
+
+<style>
+	.main-grid {
+		width: 1260px;
+		display: grid;
+		gap: 2rem;
+		grid-template-columns: 4fr 1fr;
+	}
+
+	.posts-grid {
+		display: grid;
+		gap: 2rem;
+		grid-template-columns: 1fr 1fr;
+		grid-template-areas:
+			"firstPost firstPost";
+	}
+
+	.posts-grid *:first-child {
+		grid-area: firstPost;
+	}
+
+	@media (max-width: 1300px) {
+		.main-grid {
+			width: 100%;
+			display: grid;
+			grid-template-columns: 1fr;
+			padding: 2rem;
+		}
+	}
+
+	@media (max-width: 800px) {
+		.posts-grid {
+			display: grid;
+			gap: 2rem;
+			grid-template-columns: 1fr;
+			grid-template-areas:
+				"firstPost";
+		}
+	}
+</style>

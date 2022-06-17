@@ -1,0 +1,15 @@
+---
+import NavLink from "./NavLink.astro";
+
+export interface Props {
+    currentPath?: string;
+    bgColor: string;
+}
+
+const { currentPath, bgColor } = Astro.props as Props;
+---
+
+<nav class={`flex items-center gap-2 p-2 ${bgColor}`}>
+    <NavLink text="Home" path="/" currentPath={currentPath} />
+    <NavLink text="About me" path="/about-me" currentPath={currentPath} />
+</nav>
