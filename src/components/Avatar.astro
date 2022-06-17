@@ -1,0 +1,10 @@
+---
+export interface Props {
+    imgSrc: string;
+    class?: string;
+}
+
+const { imgSrc, class: classname } = Astro.props as Props
+---
+
+<img src={imgSrc} alt="Avatar" class={`rounded-full border border-white ${classname}`}>

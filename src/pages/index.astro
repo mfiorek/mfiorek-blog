@@ -1,8 +1,17 @@
 ---
 import HomeLayout from '../layouts/Home.astro';
 import PostCard from '../components/PostCard.astro';
+import Avatar from '../components/Avatar.astro';
 
 const posts = await Astro.glob('../pages/post/*.md');
+
+const tagsSet = new Set();
+posts.forEach(post => {
+	post.frontmatter.tags?.forEach(tag => {
+		tagsSet.add(tag)
+	})
+})
+const tagsArray = [...tagsSet]
 ---
 
 <HomeLayout>
@@ -10,11 +19,30 @@ const posts = await Astro.glob('../pages/post/*.md');
 		<section class="posts-grid">
 			{posts
 			.filter(post => !post.frontmatter.draft)
-			?.map(post => <PostCard post={post} />)
+			?.map(post =>
+			<PostCard post={post} />)
 			}
 		</section>
-		<aside>
-			<p>Hi, I'm fior and this is my blog!</p>
+		<hr />
+		<aside class="flex flex-col gap-6">
+			<div class="flex gap-4">
+				<Avatar imgSrc="/mf.jpg" class="w-16 h-16" />
+				<section class="flex flex-col gap-2">
+					<p>Hi! I'm <b>fiorek</b>, a full-stack (leaning towards frontend) developer based in Warsaw.</p>
+					<p>This is my blog, where I dump my thoughts and opinions.</p>
+				</section>
+			</div>
+			{tagsArray.length &&
+			<hr />
+			<div class="flex flex-col">
+				<h3 class="text-xl">Tags:</h3>
+				<div class="flex gap-2">
+					{tagsArray.map(tag => (
+					<p>#{tag}</p>
+					))}
+				</div>
+			</div>
+			}
 		</aside>
 	</div>
 </HomeLayout>
@@ -24,7 +52,7 @@ const posts = await Astro.glob('../pages/post/*.md');
 		width: 1260px;
 		display: grid;
 		gap: 2rem;
-		grid-template-columns: 4fr 1fr;
+		grid-template-columns: 3fr 1fr;
 	}
 
 	.posts-grid {
@@ -39,12 +67,20 @@ const posts = await Astro.glob('../pages/post/*.md');
 		grid-area: firstPost;
 	}
 
+	hr {
+		display: none;
+	}
+
 	@media (max-width: 1300px) {
 		.main-grid {
 			width: 100%;
 			display: grid;
 			grid-template-columns: 1fr;
 			padding: 2rem;
+		}
+
+		hr {
+			display: block;
 		}
 	}
 
