@@ -1,6 +1,12 @@
 ---
+export interface Props {
+    text: string;
+    bgColor: string;
+}
+
+const { text, bgColor } = Astro.props as Props;
 ---
 
-<div class="flex items-center justify-center bg-emerald-800">
-    <p class="text-6xl my-24 select-none">🥦 fior</p>
+<div class={`flex items-center justify-center ${bgColor}`}>
+    <p class="text-6xl my-24 select-none">{text}</p>
 </div>

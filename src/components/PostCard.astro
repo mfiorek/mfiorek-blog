@@ -9,7 +9,7 @@ const { post } = Astro.props as Props;
 <article class="flex flex-col gap-4 p-4 border bg-slate-400 hover:shadow-md text-slate-800">
     <div class="flex justify-between">
         <div class="flex gap-2">
-            {post.frontmatter.tags?.map(tag => <span>#{tag}</span>)}
+            {post.frontmatter.tags?.map(tag => <a href={`/tag/${tag}`}>#{tag}</a>)}
         </div>
         <p class="text-right whitespace-nowrap">Written on: {post.frontmatter.date}</p>
     </div>

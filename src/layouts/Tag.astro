@@ -1,0 +1,19 @@
+---
+import BaseHtml from './BaseHtml.astro';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+
+export interface Props {
+    tag: string | number;
+  }
+  
+  const { tag } = Astro.props as Props;
+---
+
+<BaseHtml title={`fiorek blog - #${tag}`}>
+    <Navbar bgColor="bg-purple-800" />
+    <Hero text={`#${tag as string}`} bgColor="bg-purple-800"/>
+    <main>
+        <slot />
+    </main>
+</BaseHtml>
