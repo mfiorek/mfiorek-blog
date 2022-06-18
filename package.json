@@ -11,5 +11,8 @@
   "devDependencies": {
     "@astrojs/tailwind": "^0.2.1",
     "astro": "^1.0.0-beta.46"
+  },
+  "dependencies": {
+    "reading-time": "^1.5.0"
   }
 }

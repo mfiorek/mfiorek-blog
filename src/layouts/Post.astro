@@ -1,13 +1,40 @@
 ---
+import readingTime from 'reading-time';
 import BaseHtml from './BaseHtml.astro';
 import Navbar from '../components/Navbar.astro';
 
 const { content } = Astro.props;
+
 ---
 
 <BaseHtml title={`fiorek blog - ${content.title}`}>
     <Navbar bgColor="bg-cyan-800" />
-    <main>
-        <slot />
+    <main class="flex flex-col grow">
+        <div class="canvas grow bg-slate-700">
+            <div class="flex justify-between mb-8">
+                <div class="flex gap-2">
+                    {content.tags?.map(tag => <a href={`/tag/${tag}`}>#{tag}</a>)}
+                </div>
+                <p class="text-right whitespace-nowrap">{content.date}</p>
+            </div>
+            <h1 class="text-4xl font-semibold">{content.title}</h1>
+            <p class="mb-16">{readingTime(content.astro.source).text}</p>
+            <slot />
+        </div>
     </main>
 </BaseHtml>
+
+<style>
+    .canvas {
+        width: 800px;
+        margin: auto;
+        padding: 1rem;
+    }
+
+    @media (max-width: 860px) {
+        .canvas {
+            width: 100%;
+            padding: 1rem 2rem;
+        }
+    }
+</style>
