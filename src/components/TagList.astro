@@ -11,7 +11,7 @@ const { tags } = Astro.props as Props;
     <h3 class="text-xl">Tags:</h3>
     <div class="flex gap-2">
         {tags.map(tag => (
-        <a href={`/tag/${tag}`}>#{tag}</a>
+        <a href={`${Astro.site.href}tag/${tag}`}>#{tag}</a>
         ))}
     </div>
 </div>
