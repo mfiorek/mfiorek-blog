@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar.astro';
 ---
 
 <BaseHtml title="mfiorek blog - About me">
-    <Navbar currentPath="/about-me" bgColor="bg-orange-800" />
+    <Navbar currentPath={`${Astro.site.href}about-me`} bgColor="bg-orange-800" />
     <main>
         <slot />
     </main>
