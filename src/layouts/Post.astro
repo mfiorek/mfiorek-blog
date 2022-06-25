@@ -2,15 +2,15 @@
 import readingTime from 'reading-time';
 import BaseHtml from './BaseHtml.astro';
 import Navbar from '../components/Navbar.astro';
+import TableOfContents from '../components/TableOfContents';
 
 const { content } = Astro.props;
-
 ---
 
 <BaseHtml title={`fiorek blog - ${content.title}`}>
-    <Navbar bgColor="bg-cyan-800" />
-    <main class="flex flex-col grow">
-        <div class="canvas grow bg-slate-700">
+    <Navbar bgColor="bg-cyan-800" sticky={true} />
+    <div class="flex justify-center">
+        <div class="canvas p-8 bg-slate-700">
             <div class="flex justify-between mb-8">
                 <div class="flex gap-2">
                     {content.tags?.map(tag => <a href={`/tag/${tag}`}>#{tag}</a>)}
@@ -18,23 +18,78 @@ const { content } = Astro.props;
                 <p class="text-right whitespace-nowrap">{content.date}</p>
             </div>
             <h1 class="text-4xl font-semibold">{content.title}</h1>
-            <p class="mb-16">{readingTime(content.astro.source).text}</p>
-            <slot />
+            <p class="mb-16 text-right">{readingTime(content.astro.source).text}</p>
+            <section id="markdown" class="markdown">
+                <slot />
+            </section>
         </div>
-    </main>
+        {!!content.astro.headers.length && 
+            <div class="toc">
+                <TableOfContents headers={content.astro.headers} client:visible>
+                    This is not rendered, but prevents Astro's bug
+                </TableOfContents>
+            </div>
+        }
+    </div>
 </BaseHtml>
 
-<style>
+<style lang="scss" is:global>
     .canvas {
         width: 800px;
-        margin: auto;
-        padding: 1rem;
     }
 
-    @media (max-width: 860px) {
+    .toc {
+        width: 400px;
+    }
+
+    @media (max-width: 800px) {
         .canvas {
             width: 100%;
-            padding: 1rem 2rem;
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .toc {
+            display: none;
+        }
+    }
+
+    .markdown {
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            scroll-margin-top: 4rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-top: 5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        pre {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0.5rem;
         }
     }
 </style>
