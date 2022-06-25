@@ -1,13 +1,47 @@
 ---
+import HomeLayout from '../layouts/Home.astro';
+import MainGrid from '../components/MainGrid.astro';
+import PostGrid from '../components/PostGrid.astro';
+import Avatar from '../components/Avatar.astro';
+import TagList from '../components/TagList.astro';
 
+const postsWithDrafts = await Astro.glob('./post/**/*.md');
+const posts = postsWithDrafts.filter(post => !post.frontmatter.draft)
+
+const tagsSet = new Set<string>();
+posts.forEach(post => {
+	post.frontmatter.tags?.forEach(tag => {
+		tagsSet.add(tag)
+	})
+})
+const tagsArray = [...tagsSet]
 ---
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+
+<HomeLayout>
+	<MainGrid>
+		<PostGrid posts={posts} />
+		<hr />
+		<aside class="flex flex-col gap-6">
+			<div class="flex gap-4">
+				<Avatar imgSrc="/mf.jpg" class="w-16 h-16" />
+				<section class="flex flex-col gap-2">
+					<p>Hi! I'm <b>fiorek</b>, a full-stack (leaning towards frontend) developer based in Warsaw.</p>
+					<p>This is my blog, where I dump my thoughts and opinions.</p>
+				</section>
+			</div>
+			<TagList tags={tagsArray} />
+		</aside>
+	</MainGrid>
+</HomeLayout>
+
+<style>
+	hr {
+		display: none;
+	}
+
+	@media (max-width: 1300px) {
+		hr {
+			display: block;
+		}
+	}
+</style>

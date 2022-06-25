@@ -1,0 +1,97 @@
+---
+import readingTime from 'reading-time';
+import BaseHtml from './BaseHtml.astro';
+import Navbar from '../components/Navbar.astro';
+import ProgressBar from '../components/ProgressBar'
+import TableOfContents from '../components/TableOfContents';
+
+const { content } = Astro.props;
+---
+
+<BaseHtml title={`fiorek blog - ${content.title}`}>
+    <Navbar bgColor="bg-cyan-800" sticky={true} />
+    <ProgressBar client:load>x</ProgressBar>
+    <div class="flex justify-center">
+        <div class="canvas p-8 bg-slate-700">
+            <div class="flex justify-between mb-8">
+                <div class="flex gap-2">
+                    {content.tags?.map(tag => <a href={`/tag/${tag}`}>#{tag}</a>)}
+                </div>
+                <p class="text-right whitespace-nowrap">{content.date}</p>
+            </div>
+            <h1 class="text-4xl font-semibold">{content.title}</h1>
+            <p class="mb-16 text-right">{readingTime(content.astro.source).text}</p>
+            <section id="markdown" class="markdown">
+                <slot />
+            </section>
+        </div>
+        {!!content.astro.headers.length && 
+            <div class="toc">
+                <TableOfContents headers={content.astro.headers} client:visible>
+                    This is not rendered, but prevents Astro's bug
+                </TableOfContents>
+            </div>
+        }
+    </div>
+</BaseHtml>
+
+<style lang="scss" is:global>
+    .canvas {
+        width: 800px;
+    }
+
+    .toc {
+        width: 400px;
+    }
+
+    @media (max-width: 800px) {
+        .canvas {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .toc {
+            display: none;
+        }
+    }
+
+    .markdown {
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            scroll-margin-top: 4rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-top: 5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        pre {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0.5rem;
+        }
+    }
+</style>

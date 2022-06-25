@@ -1,0 +1,41 @@
+---
+import TagLayout from "../../layouts/Tag.astro";
+import MainGrid from "../../components/MainGrid.astro";
+import PostGrid from '../../components/PostGrid.astro';
+import TagList from "../../components/TagList.astro";
+
+const postsWithDrafts = await Astro.glob('../post/*.md');
+const posts = postsWithDrafts.filter(post => !post.frontmatter.draft)
+const tagsSet = new Set<string>();
+posts.forEach(post => {
+    post.frontmatter.tags?.forEach(tag => {
+        tagsSet.add(tag)
+    })
+})
+const tagsArray = [...tagsSet]
+
+export async function getStaticPaths() {
+    const postsWithDrafts = await Astro.glob('../post/*.md');
+    const posts = postsWithDrafts.filter(post => !post.frontmatter.draft)
+
+    const tagsSet = new Set<string>();
+    posts.forEach(post => {
+        post.frontmatter.tags?.forEach(tag => {
+            tagsSet.add(tag)
+        })
+    })
+    const tagsArray = [...tagsSet]
+
+    return tagsArray.map(tag => ({ params: { tag } }));
+}
+
+const { tag } = Astro.params;
+const postsWithTag = posts.filter(post => (post.frontmatter.tags?.includes(tag)))
+---
+
+<TagLayout tag={tag}>
+    <MainGrid>
+        <PostGrid posts={postsWithTag} />
+        <TagList tags={tagsArray} />
+    </MainGrid>
+</TagLayout>

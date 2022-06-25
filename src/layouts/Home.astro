@@ -1,0 +1,13 @@
+---
+import BaseHtml from '../layouts/BaseHtml.astro';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+---
+
+<BaseHtml title="mfiorek blog">
+    <Navbar currentPath="/" bgColor="bg-emerald-800" />
+    <Hero text="🥦 mfiorek blog" bgColor="bg-emerald-800"/>
+    <main>
+        <slot />
+    </main>
+</BaseHtml>
