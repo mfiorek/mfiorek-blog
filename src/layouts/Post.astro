@@ -15,7 +15,7 @@ const { content } = Astro.props;
         <div class="canvas p-8 bg-slate-700">
             <div class="flex justify-between mb-8">
                 <div class="flex gap-2">
-                    {content.tags?.map(tag => <a href={`/tag/${tag}`}>#{tag}</a>)}
+                    {content.tags?.map(tag => <a href={`${Astro.site.href}/tag/${tag}`}>#{tag}</a>)}
                 </div>
                 <p class="text-right whitespace-nowrap">{content.date}</p>
             </div>
