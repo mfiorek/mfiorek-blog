@@ -11,6 +11,6 @@ const { currentPath, bgColor, sticky } = Astro.props as Props;
 ---
 
 <nav class={`${sticky && 'sticky top-0'} flex items-center h-[60px] gap-2 p-2 ${bgColor}`}>
-    <NavLink text="Home" path="/" currentPath={currentPath} />
-    <NavLink text="About me" path="/about-me" currentPath={currentPath} />
+    <NavLink text="Home" path={Astro.site.href} currentPath={currentPath} />
+    <NavLink text="About me" path={`${Astro.site.href}about-me`} currentPath={currentPath} />
 </nav>
