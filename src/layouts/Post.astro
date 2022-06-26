@@ -17,7 +17,7 @@ const { content } = Astro.props;
                 <div class="flex gap-2">
                     {content.tags?.map(tag => <a href={`${Astro.site.href}/tag/${tag}`}>#{tag}</a>)}
                 </div>
-                <p class="text-right whitespace-nowrap">{content.date}</p>
+                <p class="text-right whitespace-nowrap">{new Date(content.date).toLocaleDateString()}</p>
             </div>
             <h1 class="text-4xl font-semibold">{content.title}</h1>
             <p class="mb-16 text-right">{readingTime(content.astro.source).text}</p>
@@ -25,12 +25,12 @@ const { content } = Astro.props;
                 <slot />
             </section>
         </div>
-        {!!content.astro.headers.length && 
-            <div class="toc">
-                <TableOfContents headers={content.astro.headers} client:visible>
-                    This is not rendered, but prevents Astro's bug
-                </TableOfContents>
-            </div>
+        {!!content.astro.headers.length &&
+        <div class="toc">
+            <TableOfContents headers={content.astro.headers} client:visible>
+                This is not rendered, but prevents Astro's bug
+            </TableOfContents>
+        </div>
         }
     </div>
 </BaseHtml>
@@ -86,6 +86,20 @@ const { content } = Astro.props;
             margin-top: 1.5rem;
             margin-bottom: 1rem;
             font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            line-height: 1.5rem;
+        }
+
+        ol,
+        ul,
+        menu {
+            list-style: decimal;
+            list-style-position: inside;
+            margin: 0;
+            padding: 0;
         }
 
         pre {

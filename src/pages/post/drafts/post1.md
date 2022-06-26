@@ -2,7 +2,7 @@
 title: Post 1
 layout: ../../../layouts/Post.astro
 description: First post
-date: 01/06/2022
+date: 2022-06-01
 tags: [ tag1, tag2 ]
 draft: true
 ---
