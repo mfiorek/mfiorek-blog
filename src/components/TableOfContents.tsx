@@ -2,12 +2,13 @@ import { useEffect, useState } from 'preact/hooks';
 
 const TableOfContents = ({ headers }) => {
   const [headerToHighlight, setHeaderToHighlight] = useState(undefined);
+  const headersForTOC = headers.filter((h) => h.depth <= 3);
 
   useEffect(() => {
     const onScroll = () => {
       const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
       setHeaderToHighlight(
-        [...headers].reverse().find((h) => {
+        [...headersForTOC].reverse().find((h) => {
           const headerElement = document.getElementById('markdown').querySelector(`#${h.slug}`) as HTMLElement | null;
           return headerElement?.offsetTop < winScroll + 65;
         })?.slug,
@@ -20,7 +21,7 @@ const TableOfContents = ({ headers }) => {
 
   return (
     <div id='toc' class='sticky top-16 flex flex-col gap-2 pt-8'>
-      {headers?.map((h) => (
+      {headersForTOC?.map((h) => (
         <a
           id={h.slug}
           className={`${h.slug !== headerToHighlight && 'opacity-30'} text-lg font-semibold mb-4 overflow-hidden text-ellipsis`}
